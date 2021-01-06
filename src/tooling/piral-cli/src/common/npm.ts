@@ -1,4 +1,4 @@
-import { resolve, relative } from 'path';
+import { resolve, relative, dirname } from 'path';
 import { createReadStream, existsSync, access, constants } from 'fs';
 import { log, fail } from './log';
 import { config } from './config';
@@ -47,6 +47,27 @@ export async function getLernaConfigPath(root: string) {
   if (file) {
     log('generalDebug_0003', `Found Lerna config in "${file}".`);
     return file;
+  }
+
+  return undefined;
+}
+
+export async function getNxConfigPath(root: string) {
+  log('generalDebug_0003', 'Trying to get the configuration file for Nx ...');
+  const nxFile = await findFile(root, 'nx.json');
+
+  if (nxFile) {
+    const dir = dirname(nxFile);
+    log('generalDebug_0003', `Found Nx config in "${nxFile}".`);
+
+    const workspaceExists = await checkExists(resolve(dir, 'workspace.join'));
+    log('generalDebug_0003', `File workspace.json exists "${dir}": ${workspaceExists}.`);
+
+    if (!workspaceExists) {
+      return undefined;
+    }
+
+    return nxFile;
   }
 
   return undefined;
@@ -115,13 +136,19 @@ export async function isMonorepoPackageRef(refName: string, root: string): Promi
   return details?.dependencies?.[refName]?.extraneous ?? false;
 }
 
-export type MonorepoKind = 'none' | 'lerna' | 'yarn';
+export type MonorepoKind = 'none' | 'lerna' | 'yarn' | 'nx';
 
 export async function detectMonorepo(root: string): Promise<MonorepoKind> {
-  const file = await getLernaConfigPath(root);
+  const lernaJson = await getLernaConfigPath(root);
 
-  if (file !== undefined) {
+  if (lernaJson !== undefined) {
     return 'lerna';
+  }
+
+  const nxJson = await getNxConfigPath(root);
+
+  if (nxJson !== undefined) {
+    return 'nx';
   }
 
   const packageJson = await readJson(root, 'package.json');
@@ -133,8 +160,13 @@ export async function detectMonorepo(root: string): Promise<MonorepoKind> {
   return 'none';
 }
 
-export function bootstrapMonorepo(target = '.') {
+export function bootstrapLernaMonorepo(target = '.') {
   const c = require(`./clients/lerna`);
+  return c.bootstrap(target);
+}
+
+export function bootstrapNxMonorepo(target = '.') {
+  const c = require(`./clients/nx`);
   return c.bootstrap(target);
 }
 

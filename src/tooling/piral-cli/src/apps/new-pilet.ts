@@ -29,7 +29,8 @@ import {
   copyScaffoldingFiles,
   getPiralPath,
   detectMonorepo,
-  bootstrapMonorepo,
+  bootstrapLernaMonorepo,
+  bootstrapNxMonorepo,
 } from '../common';
 
 export interface NewPiletOptions {
@@ -211,7 +212,9 @@ always-auth=true`,
       const monorepoKind = await detectMonorepo(root);
 
       if (monorepoKind === 'lerna') {
-        await bootstrapMonorepo(root);
+        await bootstrapLernaMonorepo(root);
+      } else if (monorepoKind === 'nx') {
+        await bootstrapNxMonorepo(root);
       } else {
         await installDependencies(npmClient, root);
       }

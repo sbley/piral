@@ -23,7 +23,8 @@ import {
   copyScaffoldingFiles,
   getPiralPath,
   detectMonorepo,
-  bootstrapMonorepo,
+  bootstrapLernaMonorepo,
+  bootstrapNxMonorepo,
   isMonorepoPackageRef,
 } from '../common';
 
@@ -155,7 +156,9 @@ export async function upgradePilet(baseDir = process.cwd(), options: UpgradePile
       const monorepoKind = await detectMonorepo(root);
 
       if (monorepoKind === 'lerna') {
-        await bootstrapMonorepo(root);
+        await bootstrapLernaMonorepo(root);
+      } else if (monorepoKind === 'nx') {
+        await bootstrapNxMonorepo(root);
       } else {
         await installDependencies(npmClient, root);
       }

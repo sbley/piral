@@ -12,6 +12,7 @@
 * Added `feed` parameter to `pilet debug` (#344)
 * Added `userStore` as an option for `piral-oidc` (#345)
 * Added `wrappers` to enable central component transformations
+* Added support for monorepos with Nx workspaces
 
 ## 0.12.4 (November 24, 2020)
 
@@ -98,8 +99,8 @@
 * Added the ability to pass in multiple sources for `pilet debug`
 * Added support for scoped piral-cli plugins (#254)
 * Extended the multi-debug capability of `pilet debug` (#250)
-* Improved mono repo support for `pilet new` (#248)
-* Improved mono repo support for `pilet upgrade` (#247)
+* Improved monorepo support for `pilet new` (#248)
+* Improved monorepo support for `pilet upgrade` (#247)
 * Restructured the repository (#240)
 
 ## 0.11.6 (June 6, 2020)
@@ -221,7 +222,7 @@
 ## 0.10.7 (February 21, 2020)
 
 * Included `core-js/stable` in Piral polyfills (#162)
-* Fixed build in mono repo to properly support IE11 (#162)
+* Fixed build in monorepo to properly support IE11 (#162)
 * Fixed issue with modification of `has-symbols` package (#160)
 
 ## 0.10.6 (February 20, 2020)
@@ -234,7 +235,7 @@
 ## 0.10.5 (February 15, 2020)
 
 * Fixed `keyof` usage in interfaces and as parameters (#152)
-* Fixed that pilets are not watched in mono repos (#153)
+* Fixed that pilets are not watched in monorepos (#153)
 * Added support for default exports in custom declarations (#154)
 * Fixed missing inclusion of JSX exported modules (#155)
 * Added `core-js` to standard opt-out polyfills (#157)
@@ -245,7 +246,7 @@
 
 * Fixed declaration with expansion of `keyof` (#150)
 * Fixed declaration generation of exported functions and generator functions (#151)
-* Improved support for mono repo usage (#143)
+* Improved support for monorepo usage (#143)
 
 ## 0.10.3 (February 11, 2020)
 
@@ -255,7 +256,7 @@
 * Fixed wrongly inferred types from regular expression in declaration (#147)
 * Fixed inferred types from array in declaration (#148)
 * Improved complicated types resolution in declaration (#149)
-* Added direct support for mono repo usage (#143)
+* Added direct support for monorepo usage (#143)
 
 ## 0.10.2 (February 5, 2020)
 
